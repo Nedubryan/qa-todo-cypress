@@ -14,11 +14,9 @@ jobs:
       # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: false # ✅ Prevents frontend submodule errors
 
       # 2️⃣ Setup Node.js
-      - name: Use Node.js 20
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -27,15 +25,34 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Run Cypress tests
-      - name: Run Cypress Tests
-        run: npm install && npx cypress run
+      # 4️⃣ Start the app in the background
+      - name: Start app
+        run: npm start &
+      
+      # 5️⃣ Wait until app is ready (port 3000)
+      - name: Wait for app
+        run: |
+          for i in {1..30}; do
+            if nc -z localhost 3000; then
+              echo "App is running!";
+              exit 0;
+            fi
+            echo "Waiting for app...";
+            sleep 2;
+          done
+          echo "App did not start in time!";
+          exit 1;
+
+      # 6️⃣ Run Cypress tests
+      - name: Run Cypress
+        run: npx cypress run
 
 
-      # 5️⃣ Upload test results (optional)
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-results
-          path: cypress/videos
+
+
+
+ 
+
+
+
+
