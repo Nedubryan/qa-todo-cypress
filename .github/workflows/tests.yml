@@ -29,7 +29,7 @@ jobs:
 
       # 4️⃣ Run Cypress tests
       - name: Run Cypress Tests
-        run: npx cypress run
+        run: npm install && npx cypress run
 
       # 5️⃣ Upload test results (optional)
       - name: Upload test results
