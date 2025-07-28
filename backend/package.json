@@ -4,8 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest" ,
-    "build": "react-scripts build"
+    "test": "jest" 
+    
   },
   "dependencies": {
     "body-parser": "^1.20.2",
