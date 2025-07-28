@@ -25,11 +25,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Start the app in the background
-      - name: Start app
-        run: npm start &
-      
-      # 5️⃣ Wait until app is ready (port 3000)
+      # 4️⃣ Build app for production
+      - name: Build app
+        run: npm run build
+
+      # 5️⃣ Serve app in the background
+      - name: Serve app
+        run: npx serve -s build &
+
+      # 6️⃣ Wait until app is ready (port 3000)
       - name: Wait for app
         run: |
           for i in {1..30}; do
@@ -43,9 +47,10 @@ jobs:
           echo "App did not start in time!";
           exit 1;
 
-      # 6️⃣ Run Cypress tests
+      # 7️⃣ Run Cypress tests
       - name: Run Cypress
         run: npx cypress run
+
 
 
 
