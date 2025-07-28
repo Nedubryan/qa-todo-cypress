@@ -31,6 +31,7 @@ jobs:
       - name: Run Cypress Tests
         run: npm install && npx cypress run
 
+
       # 5️⃣ Upload test results (optional)
       - name: Upload test results
         if: always()
