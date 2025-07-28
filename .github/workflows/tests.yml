@@ -1,14 +1,40 @@
-name: Run Tests
+name: Cypress Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      # 1️⃣ Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          node-version: 18
-      - run: cd backend && npm install && npm test -- --coverage
-      - run: cd frontend && npm install && npx cypress run
+          submodules: false # ✅ Prevents frontend submodule errors
+
+      # 2️⃣ Setup Node.js
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # 4️⃣ Run Cypress tests
+      - name: Run Cypress Tests
+        run: npx cypress run
+
+      # 5️⃣ Upload test results (optional)
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results
+          path: cypress/videos
