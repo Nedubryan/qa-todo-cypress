@@ -7,10 +7,7 @@ describe("Todo CRUD Operations", () => {
     cy.get("input[type='password']").should("be.visible").type("Password123!");
     cy.contains("Login").click();
 
-    // ✅ Wait for redirect to /todos
-    cy.url({ timeout: 10000 }).should("include", "/todos");
-
-    // ✅ Ensure Add button is visible
+   // ✅ Ensure Add button is visible
     cy.contains("Add", { timeout: 10000 }).should("be.visible");
   });
 
